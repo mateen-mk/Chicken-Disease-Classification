@@ -12,3 +12,14 @@
 7. Update the pipeline 
 8. Update the main.py
 9. Update the dvc.yaml
+
+
+---
+- workflow 
+    - update config.yaml and params.yaml
+    - create research/notebook stage  # for testing below steps
+    - update src/entity/config_entity.py
+    - update src/config/configuration.py
+    - create src/components/(current stage)
+    - create src/pipeline/(current stage)
+    - update main.py

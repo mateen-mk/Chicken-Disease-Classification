@@ -1,7 +1,9 @@
+import os
 from ChickenDiseaseClassifier.constants import *
 from ChickenDiseaseClassifier.utils.common import read_yaml, create_directories
 from ChickenDiseaseClassifier.entity.config_entity import (DataIngestionConfig, 
-                                                           PrepareBaseModelConfig)
+                                                           PrepareBaseModelConfig,
+                                                           PrepareCallbacksConfig)
 
 
 
@@ -17,12 +19,14 @@ class ConfigurationManager:
         and creates the necessary directories for artifacts.
 
         Args:
-            config_filepath (str, optional): Path to the configuration file.
-                Defaults to CONFIG_FILE_PATH.
-            params_filepath (str, optional): Path to the parameters file.
-                Defaults to PARAMS_FILE_PATH.
+        --------
+        config_filepath (str, optional): Path to the configuration file.
+            Defaults to CONFIG_FILE_PATH.
+        params_filepath (str, optional): Path to the parameters file.
+            Defaults to PARAMS_FILE_PATH.
 
         Returns:
+        --------
             None
         """
         self.config = read_yaml(config_filepath)
@@ -40,7 +44,8 @@ class ConfigurationManager:
         creates the necessary directories, and returns a DataIngestionConfig object.
 
         Returns:
-            DataIngestionConfig: An object containing the configuration for data ingestion,
+        --------
+        DataIngestionConfig: An object containing the configuration for data ingestion,
             including root directory, source URL, local data file path, and unzip directory.
         """
         config = self.config.data_ingestion
@@ -66,6 +71,7 @@ class ConfigurationManager:
         creates the necessary directories, and returns a PrepareBaseModelConfig object.
         
         Returns:
+        --------
         PrepareBaseModelConfig: An object containing the configuration for preparing the base model,
             including root directory, base model path, updated base model path, image size, learning rate,
             include top flag, weights, and classes.
@@ -87,3 +93,35 @@ class ConfigurationManager:
         )
 
         return prepare_base_model_config
+
+
+
+    def get_prepare_callback_config(self) -> PrepareCallbacksConfig:
+        """
+        Prepare the configuration for callbacks used during model training.
+
+        This method reads the callback configuration from the main config,
+        creates the necessary directories for the checkpoint and TensorBoard logs,
+        and returns a PrepareCallbacksConfig object.
+
+        Returns:
+        --------
+        PrepareCallbacksConfig : PrepareCallbacksConfig
+            An object containing the configuration for callbacks,
+            including root directory, TensorBoard root log directory,
+            and checkpoint model file path.
+        """
+        config = self.config.prepare_callbacks
+        model_ckpt_dir = os.path.dirname(config.checkpoint_model_filepath)
+        create_directories([
+            Path(model_ckpt_dir),
+            Path(config.tensorboard_root_log_dir)
+        ])
+
+        prepare_callback_config = PrepareCallbacksConfig(
+            root_dir=Path(config.root_dir),
+            tensorboard_root_log_dir=Path(config.tensorboard_root_log_dir),
+            checkpoint_model_filepath=Path(config.checkpoint_model_filepath)
+        )
+
+        return prepare_callback_config
