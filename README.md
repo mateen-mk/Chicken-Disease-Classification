@@ -14,12 +14,35 @@
 9. Update the dvc.yaml
 
 
+### workflow
+--- 
+- update config.yaml and params.yaml
+- create research/notebook stage  # for testing below steps
+- update src/entity/config_entity.py
+- update src/config/configuration.py
+- create src/components/(current stage)
+- create src/pipeline/(current stage)
+- update main.py
+
+
+
+### DVC DAG
 ---
-- workflow 
-    - update config.yaml and params.yaml
-    - create research/notebook stage  # for testing below steps
-    - update src/entity/config_entity.py
-    - update src/config/configuration.py
-    - create src/components/(current stage)
-    - create src/pipeline/(current stage)
-    - update main.py
+```dvc
++----------------+            +--------------------+
+| data_ingestion |            | prepare_base_model |
++----------------+*****       +--------------------+
+         *             *****             *
+         *                  ******       *
+         *                        ***    *
+         **                        +----------+
+           **                      | training |
+             ***                   +----------+
+                ***             ***
+                   **         **
+                     **     **
+                  +------------+
+                  | evaluation |
+                  +------------+
+        
+```
