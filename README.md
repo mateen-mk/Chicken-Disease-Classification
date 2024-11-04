@@ -180,7 +180,7 @@ docker run -p 5000:5000 chicken_disease_classifier
 
 ## 📬 Contact
 
-For queries or suggestions, reach out via [Mail](mateenmk2428@gmail.com).
+For queries or suggestions, reach out via [Mail](mailto:mateenmk2428@gmail.com).
 
 ---
 
