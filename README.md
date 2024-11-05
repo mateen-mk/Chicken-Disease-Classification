@@ -74,7 +74,7 @@ To avoid dependency conflicts, use a virtual environment:
 python -m venv .chickenenv
 ```
 ```bash
-.chickenenv/Scripts/activate  # On Mac: .chickenenv\bin\activate
+.\.chickenenv\Scripts\activate  # On Mac: .chickenenv\bin\activate
 ```
 
 ### 3. Install Dependencies
